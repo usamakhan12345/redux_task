@@ -5,8 +5,10 @@ import axios from 'axios'
 import Card from './Components/Elements/Card/Card'
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from "./Slices/Products/Products"
-import { addtocart, addUpdatedCart } from './Slices/Cart/Cart'
+// import { addtocart, addUpdatedCart } from './Slices/Cart/Cart'
 
+import {getProductsRequest } from './Store/reducers/Product'
+import {addToCartRequest} from './Store/reducers/Cart'
 
 function App() {
   const [products, setProducts] = useState([])
@@ -15,26 +17,28 @@ function App() {
    const dispatch = useDispatch()
   const myproducts = useSelector((state) => state.products.contents)
   const carts = useSelector((state) => state.cart.cart)
+  console.log(carts)
 
   useEffect(() => {
 
-    dispatch(getProduct())
+    dispatch(getProductsRequest())
 }, [])
 
 
   const Addtocart = (item ) => {
 
-    dispatch(addtocart(item))
+    dispatch(addToCartRequest(item))
     
   }
 
+  
   useEffect(() => {
     setProducts(myproducts)
-    setCartProducts(carts)
+    // setCartProducts(carts)
     
- }, [myproducts , Addtocart])
+ }, [myproducts ])
 
- 
+  console.log(products)
   return (
     <div>
       <DrawerAppBar Addtocart={Addtocart} />
@@ -42,7 +46,7 @@ function App() {
 
         {products.map((v, i) => (
 
-          <Card onClick={() => Addtocart(v , 'additem')} key={i} carddata={v} />
+          <Card onClick={() => Addtocart( v)} key={i} carddata={v} />
         ))}
       </div>
     </div>

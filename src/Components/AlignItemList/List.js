@@ -7,9 +7,10 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useSelector  , useDispatch } from 'react-redux';
-import {  addQty , lessQty  , deleteItems} from "../../Slices/Cart/Cart"
+// import {  addQty , lessQty  , deleteItems} from "../../Slices/Cart/Cart"
 import { CiCirclePlus  , CiCircleMinus } from "react-icons/ci";
 import Button from '../Atoms/Button/Button';
+import  {addQuantity , LessQuantity , DeleteAllCarts} from '../../Store/reducers/Cart'
 
 
 
@@ -22,8 +23,8 @@ export default function AlignItemsList({Addtocart}) {
 
   const cartProducts = useSelector((state)=> state.cart.cart)
   const dispatch = useDispatch()
-
-
+  
+  console.log(cartProducts)
   React.useEffect(()=>{
     setCartItems(cartProducts)
   },[cartProducts])
@@ -37,21 +38,22 @@ React.useEffect(()=>{
 
 } , [cartItems])
  const AddQty = (v)=>{
-  dispatch(addQty(v))
+  dispatch(addQuantity(v))
 
  }
  const lessqty = (v)=>{
-  dispatch(lessQty(v))
+  dispatch(LessQuantity(v))
 
  }
  const DeleteAllItem = ()=>{
-  dispatch(deleteItems())
+  dispatch(DeleteAllCarts())
 
  }
 
  
- console.log(cartItems.length)
- console.log([...new Set(cartItems)])
+ console.log(cartItems)
+ let uniItems = [...new Set(cartItems)]
+ console.log(uniItems)
   return (
 
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper'  }}>
@@ -75,6 +77,7 @@ React.useEffect(()=>{
               style={{ marginLeft : '20px' , color : '#000'}}
             >
               Rs : {v.price}
+              {console.log(v)}
             </Typography>
             <Typography style={{color : '#000' , display : 'flex' , justifyContent : 'center' , alignItems : 'center'}}> 
                  Qty : <CiCirclePlus  onClick={()=> AddQty(v)}  style={{cursor : 'pointer' , fontSize : '22px' , marginRight : '10px'}}/>  {cartItems.length ? cartItems.filter((item)=> item.id === v.id ).length : 0 }  <CiCircleMinus onClick={()=>lessqty(v.id)}  style={{cursor : 'pointer' , fontSize : '22px' , marginLeft : '10px'}}/>
