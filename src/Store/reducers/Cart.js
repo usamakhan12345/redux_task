@@ -12,7 +12,7 @@ const initialState = {
 
 export const addToCartRequest = createAsyncThunk(
   "CartReducer/addToCartRequest",
-  async (payload, thunkAPI) => {
+        (payload, thunkAPI) => {
      return  payload
 
   }
@@ -81,12 +81,15 @@ const CartReducer = createReducer(initialState, {
     }
   },
   [LessQuantity.fulfilled]: (state, action) => {
-    console.log(action.payload)
+    // console.log(action.payload)
     
-     state.cart.splice(state.cart.indexOf(state.cart.find((item) => item.id === action.payload)), 1)
+    //  state.cart.splice(state.cart.indexOf(state.cart.find((item) => item.id === action.payload)), 1)
+      // const cartItem = [...state.cart]
+      console.log(action.payload)
     return {
       ...state,
-      cart : state.cart
+      // cart : filteredCart
+      // cart : action.payload
        
     }
   },

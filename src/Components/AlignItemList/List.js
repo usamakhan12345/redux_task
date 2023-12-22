@@ -24,15 +24,13 @@ export default function AlignItemsList({Addtocart}) {
   const cartProducts = useSelector((state)=> state.cart.cart)
   const dispatch = useDispatch()
   
-  console.log(cartProducts)
   React.useEffect(()=>{
     setCartItems(cartProducts)
   },[cartProducts])
 
 React.useEffect(()=>{
  const total =  cartItems.reduce((a, b) =>  a + b.price ,0)
-  console.log(total) 
-  console.log(total)
+  
   total.toFixed(2)
   SetAlltotal(total)
 
@@ -42,7 +40,10 @@ React.useEffect(()=>{
 
  }
  const lessqty = (v)=>{
-  dispatch(LessQuantity(v))
+    console.log(v)
+    const lesseItems = [...cartItems]
+    console.log(lesseItems)
+    // lesseItems.splice(lesseItems.findIndex(lesseItems.filter((v,i)=> v === v )))
 
  }
  const DeleteAllItem = ()=>{
@@ -51,9 +52,7 @@ React.useEffect(()=>{
  }
 
  
- console.log(cartItems)
  let uniItems = [...new Set(cartItems)]
- console.log(uniItems)
   return (
 
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper'  }}>
@@ -77,10 +76,9 @@ React.useEffect(()=>{
               style={{ marginLeft : '20px' , color : '#000'}}
             >
               Rs : {v.price}
-              {console.log(v)}
             </Typography>
             <Typography style={{color : '#000' , display : 'flex' , justifyContent : 'center' , alignItems : 'center'}}> 
-                 Qty : <CiCirclePlus  onClick={()=> AddQty(v)}  style={{cursor : 'pointer' , fontSize : '22px' , marginRight : '10px'}}/>  {cartItems.length ? cartItems.filter((item)=> item.id === v.id ).length : 0 }  <CiCircleMinus onClick={()=>lessqty(v.id)}  style={{cursor : 'pointer' , fontSize : '22px' , marginLeft : '10px'}}/>
+                 Qty : <CiCirclePlus  onClick={()=> AddQty(v)}  style={{cursor : 'pointer' , fontSize : '22px' , marginRight : '10px'}}/>  {cartItems.length ? cartItems.filter((item)=> item.id === v.id ).length : 0 }  <CiCircleMinus onClick={()=>lessqty(v)}  style={{cursor : 'pointer' , fontSize : '22px' , marginLeft : '10px'}}/>
             </Typography> 
           </React.Fragment>
         }

@@ -1,56 +1,67 @@
 import './App.css';
 import DrawerAppBar from './Components/Header/Header'
 import { useEffect, useState } from 'react';
-import axios from 'axios'
 import Card from './Components/Elements/Card/Card'
-import { useSelector, useDispatch } from 'react-redux';
-import { getProduct } from "./Slices/Products/Products"
-// import { addtocart, addUpdatedCart } from './Slices/Cart/Cart'
+import { connect } from 'react-redux';
+import { useCookies } from 'react-cookie';
+import { getProductsRequest } from './Store/reducers/Product'
+import { addToCartRequest } from './Store/reducers/Cart'
 
-import {getProductsRequest } from './Store/reducers/Product'
-import {addToCartRequest} from './Store/reducers/Cart'
-
-function App() {
-  const [products, setProducts] = useState([])
+function App({ products, getProducts, addcart, carts }) {
+  const [Allproducts, setAllProducts] = useState([])
   const [cartPorducts, setCartProducts] = useState([])
-
-   const dispatch = useDispatch()
-  const myproducts = useSelector((state) => state.products.contents)
-  const carts = useSelector((state) => state.cart.cart)
-  console.log(carts)
+  const [cookies, setCookie , removeCookie , get ] = useCookies(['name']);
 
   useEffect(() => {
+    setCartProducts(carts.cart)
+    setCookie('name', "usama");
+    // removeCookie('test1', "Hello")
+   
+  }, [])
 
-    dispatch(getProductsRequest())
-}, [])
+  useEffect(() => {
+    getProducts()
+  }, [])
 
+  useEffect(() => {
+    setAllProducts(products.contents)
+  }, [products])
 
-  const Addtocart = (item ) => {
+  const Addtocart = (item) => {
+    addcart(item)
 
-    dispatch(addToCartRequest(item))
-    
   }
-
-  
-  useEffect(() => {
-    setProducts(myproducts)
-    // setCartProducts(carts)
-    
- }, [myproducts ])
-
-  console.log(products)
   return (
     <div>
       <DrawerAppBar Addtocart={Addtocart} />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
 
-        {products.map((v, i) => (
+        {Allproducts.map((v, i) => (
 
-          <Card onClick={() => Addtocart( v)} key={i} carddata={v} />
+          <Card onClick={() => Addtocart(v)} key={i} carddata={v} />
         ))}
       </div>
     </div>
+
   );
 }
+function mapStateToProps(state) {
+  console.log(state)
+  return {
+    products: state.products,
+    carts: state.cart
+  }
 
-export default App;
+}
+
+
+function mapDispatchToProps(dispatch) {
+  // console.log(dispatch)
+  return {
+    getProducts: () => dispatch(getProductsRequest()),
+    addcart: (item) => dispatch(addToCartRequest(item))
+
+  }
+
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)

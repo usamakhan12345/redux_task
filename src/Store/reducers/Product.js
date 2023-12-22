@@ -30,31 +30,6 @@ export const addToCart = (state,action)=>{
   console.log(state,action)
 
 }
-// export const addToCartRequest = createAsyncThunk(
-//   "ProductsReducer/getProductsRequest",
-//   async (payload, thunkAPI) => {
-//     try {
-
-//       const response = await productsActions.addtocart(payload, thunkAPI)
-//       if (response) {
-//         return response
-//       }
-//     } catch (err) {
-//       console.log(err)
-//       // return rejectWithValue(err.response.data)
-//     }
-
-
-//   }
-// )
-
-// export const addToCartRequest = ()=>{
-//         const cartItem =   productsActions.addtocart()
-
-//         return{
-//           cartItem
-//         }
-// }
 
 const ProductsReducer = createReducer(initialState, {
 
@@ -84,23 +59,7 @@ const ProductsReducer = createReducer(initialState, {
       error: null
     }
   },
-  // [addToCartRequest.fulfilled]: (state, action) => {
-  //   console.log(state, action)
-  //   return {
 
-  //     cart: [...action.payload.data]
-  //     //   error: action?.error?.message
-  //     // questions: null
-  //   }
-  // },
-
-  // [ addToCartRequest.pending]: (state) => {
-
-  //   return {
-  //     ...state,
-  //     error: null
-  //   }
-  // },
  
 })
 
